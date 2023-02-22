@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>04_el与data的两种写法</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h1>hello,{{name}}</h1>
+    </div>
+    <div id="roo2">
+        <h1>hello,{{name}}</h1>
+    </div>
+</body>
+<script>
+
+    const a = new Vue({
+        // el: "#root",
+        data: {
+            name:"word"
+        }
+    })
+
+    //data的另一种写法 函数式
+    const b = new Vue({
+        el: "#roo2",
+        //简写 可以不用加 :f0unction
+        data(){
+            return{
+                name:"worddd"
+            }
+        }
+    })
+
+    // new一个实例后外部调用，可以指定id调用
+    // a.$mount("#root")
+
+    //定时/延时调用
+    setTimeout(() =>{
+        a.$mount("#root")
+    },1000)
+
+</script>
+</html>

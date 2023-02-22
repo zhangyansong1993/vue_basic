@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <title>事件</title>
+    <script src="../../resource/vue2.7.js"></script>
+    <style>
+        div{
+            padding: 1%;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 一、点击事件 -->
+    <div id="root">
+        <!--v-on:click or @click  -->
+        <button @click="showInfo">点击事件</button>
+        <!-- 带括号形式不会传当前点击事件的event对象，加上$event占位符就能传递次参数 -->
+        <button @click="showInfo1($event,11)">点击事件1</button>
+    </div>
+
+    <!-- 二、事件修饰符 -->
+    <div id="root1">
+        <!--preven阻止默认事件，如下a点击会跳转页面，点击事件加上prevent修饰符后组织不再跳转阻止默认事件  -->
+        <a href="https://www.baidu.com" @click.prevent="demo('事件修饰符-prevent（阻止默认事件）')">事件修饰符-prevent（阻止默认事件）</a>
+        
+        <!-- stop阻止事件冒泡,事件冒泡：在多层元素结构下，多个元素都绑定了同一点击事件，点击最内的元素会触发多次点击事件调用函数，阻止事件冒泡后只会调用一次；
+                                      点击在内的元素事件会向上一级传递，俗称冒泡（嵌套多元素绑定同一事件情况下）-->
+        <div @click="demo1(1)">
+            <button @click.stop="demo1(2)">stop阻止事件冒泡</button>
+        </div>
+
+        <!--once事件只触发一次 -->
+        <button @click.once="demo2">事件只触发一次</button>
+
+        <!-- 事件修饰符可以组合使用，@click.stop.prevent 阻止冒泡并且阻止默认事件 -->
+        <div @click="demo1(1)">
+            <a href="https://www.baidu.com" @click.stop.prevent="demo1">事件修饰符可以搭配使用</a>
+        </div>
+    </div>
+
+    <!--三、键盘事件  -->
+    <!--
+        1.键盘绑定事件有两种
+            1.keyup：按下键再松开触发
+            2.keydown：按下键就会触发
+
+        2.Vue中常用按键别名
+            回车：evter
+            删除：delete（删除和退格）
+            退出：esc
+            空格：space
+            换行：tad（特殊，需要配合keydown使用）
+            上：up
+            下：down
+            左：left
+            右：right
+
+        3.Vue没有提供别名的按键，需要使用原始按键key去绑定（按键名）但注意多单词key名需要这样使用kebab-case大小写（横线命名）
+
+        4.系统修饰键（用法特殊）：ctal、alt、shift、meta（win键）
+            1）.配合keyup使用：按下修饰键的同时，再按下其他键，再松开其他键后才会触发事件
+            2）.配合keydown使用：正常触发
+
+        5.也可以使用keyCode指定具体按键（每个键有对应数字代码，不推荐使用停止维护）
+        
+        6.Vue.config.keyCodes.xxx = 键key 自定义按键别名
+        -->  
+    <div id="root2">
+        <input type="text" placeholder="键盘事件" @keyup.enter="showInfo2">
+        
+        <!-- 键盘事件可以组合使用，安ctrl.c两个键才会触发-->
+        <input type="text" placeholder="键盘事件2" @keyup.ctrl.c="showInfo2">
+    </div>
+</body>
+<script>
+    // 一、点击事件
+    new Vue({
+        el: "#root",
+        methods: {
+            //event参数是鼠标点击当前事件
+            showInfo(event) {
+                // console.log(event.target.innerText)
+                alert("点击事件")
+            },
+            showInfo1(event,number) {
+                console.log(event,number)
+            }
+        }
+    })
+
+    // 二、事件修饰符
+    new Vue({
+        el: "#root1",
+        methods: {
+            demo(str){
+                console.log(str)
+            },
+            demo1(str){
+                console.log(str)
+            },
+            demo2(){
+                alert('事件只触发一次')
+            }
+        }
+    })
+    // 键盘事件
+    new Vue({
+        el: "#root2",
+        methods: {
+            showInfo2(e){
+                console.log(e.target.value)
+            }
+        }
+    })
+</script>
+
+</html>
