@@ -1,0 +1,42 @@
+<html>
+
+<head>
+    <title>引出生命周期</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h2 :style="{opacity}">引出生命周期</h2>
+        <button @click="stop">停止变换</button>
+    </div>
+</body>
+<script>
+    new Vue({
+        // el元素简称绑定dom,#id选择, .class选择
+        el: "#root",
+        // data对象绑定数据
+        data: {
+            opacity: 1
+        },
+        methods: {
+            stop(){
+                this.$destroy();
+            }
+        },
+        // mounted 在Vue完成模板解析并加载完初始dom后调用，之后页面dom变化不会在调用
+        mounted() {
+            this.timer = setInterval(() => {
+                console.log("setInterval")
+                this.opacity -= 0.01
+                if (this.opacity <= 0) this.opacity = 1
+            }, 16)
+        },
+        beforeDestroy() {
+            console.log("销毁vm")
+            clearInterval(this.timer);
+        },
+    })
+</script>
+
+</html>

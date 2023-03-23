@@ -1,0 +1,71 @@
+<html>
+<head>
+    <title>收集表单数据</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+
+<body>
+    <div id="root"> 
+        <!-- form表单默认提交后跳转页面，加上prevent修饰符阻止默认事件 -->
+        <form @submit.prevent="dome">
+            <!--v-model.trim 去掉前后空格  -->
+            账号：<input type="text" v-model.trim="userInfo.account"><br><br>
+            密码：<input type="password" v-model="userInfo.password"><br><br>
+            <!-- type为number防止输入非数字，v-model.number后台收到会转为数值类型，否则为字符串 -->
+            年龄：<input type="number" v-model.number="userInfo.age"><br><br>
+            性别：
+            <!-- 单选框需要加上value值，否则选一个其他的也会被选择上，原因是v-model双向数据绑定，两个元素绑定同一个属性，一个变动会影响另一个 -->
+            男 <input type="radio" name="sex" value="0" v-model="userInfo.sex">
+            女 <input type="radio" name="sex" value="1" v-model="userInfo.sex">
+            <br><br>
+            爱好：
+            <!-- 多选框属性需要用数组类型,否则获取到是选择框的默认值false or true （选中和未选中）
+                 多选框也需要加上value值，原因同上-->
+            抽烟 <input type="checkbox" value="1" v-model="userInfo.hobby">
+            喝酒 <input type="checkbox" value="2" v-model="userInfo.hobby">
+            烫头 <input type="checkbox" value="3" v-model="userInfo.hobby">
+            <br><br>
+            所属地区
+            <select v-model="userInfo.city">
+                <option value="1">北京</option>
+                <option value="2">上海</option>
+                <option value="3">广州</option>
+            </select>
+            <br><br>
+            其他信息
+            <!--v-model.lazy   lazy类似懒加载，v-model会实时获取输入框的值，对应某些场景来说提交前没有必要实时获取值，可以加上lazy懒加载修饰，当输入框失去焦点时再获取值  -->
+            <textarea v-model.lazy="userInfo.other">
+            </textarea>
+            <br><br>
+            <!-- 对于只有一个选项的多选框，没必要加value值，直接获取默认值就可以，默认值false or true （选中和未选中）  -->
+            <input type="checkbox" v-model="userInfo.agree">阅读并接受<a href="https://www.baidu.com">《用户协议》</a>
+            <br><br>
+            <button>提交</button>
+        </form>
+       
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#root",
+        data: {
+            userInfo: {
+                account:'',
+                password:'',
+                age:'',
+                sex:'0',
+                hobby:[],
+                city:'',
+                other:'',
+                agree:''
+            }
+        },
+        methods: {
+            dome(){
+                console.log(val)
+                console.log(JSON.stringify(this.userInfo))
+            }
+        },
+    })
+</script>
+</html>

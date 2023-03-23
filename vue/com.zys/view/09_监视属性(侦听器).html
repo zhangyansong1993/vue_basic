@@ -1,0 +1,90 @@
+<html>
+
+<head>
+    <title>监视属性</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+
+<body>
+    <!-- 
+        watch监视属性和computed计算属性的区别：
+            计算属性能实现的监视属性都能实现，监视属性能实现的计算属性不一定能实现，例如监视属性可以进行异步操作（setTimeout定时器）
+            计算属性和监视属性都能实现的时候使用计算属性
+        原则：
+            1.被Vue管理的函数最好写成普通函数
+            2.不被Vue管理的函数写成箭头函数（例如：定时器回调，ajax回调）
+            遵守以上两个原则，this的指向才是vm
+
+        tips：监视属性已改名为侦听器    
+     -->
+
+    <!--watch监视属性 -->
+    <div id="root">
+        <h2>点击切换效果：{{sexChange}}，切换次数：{{cou}}</h2>
+        <button @click="change">点击切换</button>
+
+        <!-- 简写方式（可以写多个表达式，；分号分开，不建议写多个，单一属性可以简写） -->
+        <!-- <button @click="sex = !sex;cou++">点击切换</button> -->
+
+        <br />
+        <!-- deep:true 开启后可以监视对象中的属性变化  -->
+        <h2>年龄：{{obj.age}}</h2>
+        <button @click="obj.age++">点击加一</button>
+
+        <br />
+        <h2>身高：{{heigth}}</h2>
+        <button @click="heigth++">点击加一</button>
+    </div>
+
+</body>
+<script>
+    new Vue({
+        el: "#root",
+        data: {
+            sex: false,
+            cou: 0,
+            obj: {
+                name: '张',
+                age: 18
+            },
+            heigth: 188
+        },
+        //函数
+        methods: {
+            change() {
+                this.cou++;
+                this.sex = !this.sex;
+            }
+        },
+        //计算属性
+        computed: {
+            sexChange() {
+                return this.sex ? '男' : '女'
+            }
+        },
+        // 监视属性
+        watch: {
+            //sex被监视的属性
+            sex: {
+                immediate: true, //开启后页面加载时调用一次
+                handler(newValue, oldValue) {
+                    console.log('监视属性，新：' + newValue + ' 旧：' + oldValue);
+                }
+            },
+            //obj被监视的属性
+            obj: {
+                deep: true,//深度监视，开启后监视对象中的属性变化
+                handler() {
+                    console.log('obj改变了');
+                }
+            },
+            //监视属性的简写形式（没有其他配置项的情况下，例：deep和immediate）
+            // 简写形式不支持对象属性监测，因为对象数据监测需要配置deep为true，而简写形式不支持配置项
+            heigth(a, b) {
+                console.log('身高改动,原：' + a + '现' + b)
+            }
+        }
+    });
+</script>
+
+</html>

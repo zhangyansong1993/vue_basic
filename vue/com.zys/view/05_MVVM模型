@@ -1,5 +1,5 @@
 <!-- MVVM模型
-    M: model模型，实体、对象、数据等意思
+    M: model模型，实体、对象、数据等
     V: view视图，页面
     VM: ViewModel vue的视图模型负责model和view之间的数据绑定
 -->

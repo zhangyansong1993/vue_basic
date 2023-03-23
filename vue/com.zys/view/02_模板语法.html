@@ -15,7 +15,7 @@
     -->
     <div id="root">
         <h1>hello,{{name}}</h1>
-        <!-- v-bind: 可以绑定任何元素并赋值，可以简写为冒号：-->
+        <!-- v-bind: 可以绑定任何元素，可以简写为冒号：-->
         <a v-bind:href="url">点击跳转百度</a>
         <!-- 变量可以使用表达式和函数 -->
         <a :href="url.toUpperCase()">点击跳转{{baidu.name}}2</a>

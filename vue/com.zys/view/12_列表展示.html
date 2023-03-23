@@ -1,0 +1,60 @@
+<html>
+
+<head>
+    <title>列表渲染</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+        <!-- 
+            :key 可以使用index数据索引做为key也可以使用数据唯一标识作为key
+            key的选择：
+            1.优先使用数据唯一标识作为key
+            2.如果页面数据不会变动可以使用index作为key
+            原因：vue渲染页面会先生成虚拟dom通过虚拟dom对比页面真实dom，如果存在相同的数据或者元素会复用，
+                使用index作为key，如果渲染新的数据或者元素，新数据排序在原来数据后面不会有影响，如果排序在原来数据前面，
+                通过索引值对比原来dom后内容不同会重新渲染，影响效率，也有其他场景会影响界面展示
+        -->
+<body>
+    <div id="root">
+        <h1>遍历数组</h1>
+        <ul>
+            <!-- (per,index)形参，单个不用加括号，多个可以不加但最好加上，index为数据索引 :key 给元素指定唯一标识-->
+            <!-- <li v-for="(per,index) in persons" :key="per.id"> -->
+            <li v-for="per in persons" :key="per.id">
+                {{per.name}}-{{per.age}}
+            </li>
+        </ul>
+
+        <h1>遍历对象</h1>
+        <ul>
+            <li v-for="(value,key) in car" :key="key">
+                {{key}}-{{value}}
+            </li>
+        </ul>
+
+        <h1>遍历字符串</h1>
+        <ul>
+            <li v-for="(char,index) in str" :key="index">
+                {{char}}-{{index}}
+            </li>
+        </ul>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#root",
+        data: {
+            persons: [
+                { id: '01', name: '张三', age: 18 },
+                { id: '02', name: '李四', age: 19 },
+                { id: '03', name: '王五', age: 20 }
+            ],
+            car: {
+                name: '星越L',
+                color: '白色'
+            },
+            str: 'string'
+        },
+    })
+</script>
+
+</html>

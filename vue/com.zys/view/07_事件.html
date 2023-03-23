@@ -13,7 +13,7 @@
 <body>
     <!-- 一、点击事件 -->
     <div id="root">
-        <!--v-on:click or @click  -->
+        <!--v-on:click or @click （事件调用函数可以不加括号，默认传当前点击事件的event对象） -->
         <button @click="showInfo">点击事件</button>
         <!-- 带括号形式不会传当前点击事件的event对象，加上$event占位符就能传递次参数 -->
         <button @click="showInfo1($event,11)">点击事件1</button>

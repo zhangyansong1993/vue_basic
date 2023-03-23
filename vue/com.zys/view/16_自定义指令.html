@@ -1,0 +1,70 @@
+<html>
+
+<head>
+    <title>自定义指令</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <h2>当前值:<span v-text="n"></span></h2>
+        <h2>当前值乘十:<span v-big="n"></span></h2>
+        <button @click="n++">n+1</button>
+        <input type="text" v-fbind="n">
+        <input type="text" v-fbind-test="n">
+    </div>
+</body>
+<script>
+    //全局自定义指令 
+    Vue.directive('fbind-test', {
+        bind(element, binding) { 
+            element.value = binding.value
+        },
+        inserted(element, binding) {
+            element.focus()
+        },
+        update(element, binding) {
+            element.value = binding.value
+        }
+    })
+
+    Vue.directive('big2', function(element, binding){
+        element.innerText = binding.value * 10
+    })
+
+
+    new Vue({
+        // el元素简称绑定dom,#id选择, .class选择
+        el: "#root",
+        // data对象绑定数据
+        data: {
+            n: 1
+        },
+        // 自定义指令两种写法
+        directives: {
+            // 函数式：自定义指令，与页面元素绑定时、模板被重新解析的时候会被调用
+            big(element, binding) {
+                console.log(element, binding)
+                element.innerText = binding.value * 10
+            },
+
+            //对象式：在元素插入时的动作需要使用对象式才能完成
+            fbind: {
+                //指令与元素绑定时执行
+                bind(element, binding) { //此处的 this 是window 因为指令操作的就是dom元素
+                    element.value = binding.value
+                },
+                //指令所在元素插入页面时执行
+                inserted(element, binding) {
+                    element.focus()
+                },
+                //指令所在模板被重新解析时执行
+                update(element, binding) {
+                    element.value = binding.value
+                }
+            }
+        }
+    })
+</script>
+
+</html>

@@ -1,0 +1,78 @@
+<html>
+
+<head>
+    <title>计算属性</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+
+<body>
+    <!-- computed(计算属性) 相比 methods方式多了缓存机制，如果页面多处引用，只会调用一次，节省性能，有改动会重新调用 -->
+
+    <!-- 输入联动  methods实现-->
+    <div id="root">
+        姓：<input type="text" v-model="xing"><br>
+        名：<input type="text" v-model="ming"><br>
+        <!-- 函数调用需要加上括号 -->
+        全名：<span>{{fullName()}}</span>
+    </div>
+
+    <br>
+
+    <!-- 输入联动  computed实现-->
+    <div id="root1">
+        姓：<input type="text" v-model="xing"><br>
+        名：<input type="text" v-model="ming"><br>
+        <!-- computed计算属性不能加以括号形式调用 -->
+        全名：<span>{{fullName1}}</span>
+    </div>
+</body>
+<script>
+    const vvm = new Vue({
+        el: "#root",
+        data: {
+            xing: '张',
+            ming: '三'
+        },
+        //methods实现
+        methods: {
+            fullName() {
+                //this代表当前vue实例vm，xing、ming通过vue数据绑定，所以存在示例当中（如果是==》箭头函数，this就是当前页对象window）
+                // v-model双向数据绑定，页面输入框变动会重新加载vm再次调用函数
+                console.log('@---methods-fullName')
+                return this.xing + '-' + this.ming
+            }
+        }
+    });
+
+    const vm = new Vue({
+        el: "#root1",
+        data: {
+            xing: '张',
+            ming: '三'
+        },
+        //computed（计算属性）实现
+        computed: {
+            //只考虑get（getter）简写形式
+            fullName1() {
+                console.log('@---computed-fullName')
+                return this.xing + '-' + this.ming
+            }
+            //完整写法
+            // fullName1: {
+            //     get() {
+            //         console.log('@---computed-fullName')
+            //         return this.xing + '-' + this.ming
+            //     },
+
+            //     set(value) {
+            //         console.log('@---computed-fullName--value',value)
+            //         const arr = value.split('-');
+            //         xing = arr[0];
+            //         ming = arr[1];
+            //     }
+            // }
+        }
+    })
+</script>
+
+</html>

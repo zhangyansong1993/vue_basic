@@ -1,0 +1,37 @@
+<html>
+
+<head>
+    <title>条件渲染</title>
+    <script src="../../resource/vue2.7.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- 或者直接写false or true 来控制 是否显示，v-show不移除元素，只控制是否显示适合频繁切换场景 -->
+        <h1 v-show='isShow'>条件渲染</h1>
+
+        <!-- v-if会移除元素 -->
+        <h1 v-if='n === 1'>条件渲染1,n:{{n}}</h1>
+        <h1 v-else-if='n === 2'>条件渲染2,n:{{n}}</h1>
+        <h1 v-else>条件渲染3,n:{{n}}</h1>
+        <button @click="n++">切换</button>
+
+        <!-- 多个元素显示/关闭可以用template包裹，页面加载的时候会移除template不影响结构，只能配合v-if使用 -->
+        <template v-if="true">
+            <h1>1</h1>
+            <h1>2</h1>
+            <h1>3</h1>
+        </template>
+    </div>
+</body>
+<script>
+    new Vue({       
+        el: "#root",
+        data: {
+            isShow: false,
+            n: 0
+        }
+    })
+</script>
+
+</html>
